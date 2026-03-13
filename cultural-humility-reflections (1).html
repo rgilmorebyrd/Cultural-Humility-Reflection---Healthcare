@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cultural Humility Daily Reflections</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F3ED;
+    --warm-white: #FDFAF6;
+    --earth: #7C6A52;
+    --deep: #2D2420;
+    --sage: #6B8270;
+    --terracotta: #C4704A;
+    --muted-gold: #B8963E;
+    --light-sage: #E8EDE9;
+    --border: #D9D0C5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--deep);
+    margin-bottom: 16px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--earth);
+  }
+
+  .header-sub {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--earth);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .header-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--terracotta);
+    margin: 24px auto 0;
+    opacity: 0.5;
+  }
+
+  /* Phase navigation */
+  .phase-nav {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.1s ease both;
+    background: var(--warm-white);
+  }
+
+  .phase-btn {
+    flex: 1;
+    padding: 14px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--earth);
+    transition: all 0.25s ease;
+    border-right: 1px solid var(--border);
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .phase-btn:last-child { border-right: none; }
+
+  .phase-btn.active {
+    background: var(--deep);
+    color: var(--cream);
+  }
+
+  .phase-btn .phase-num {
+    display: block;
+    font-size: 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-bottom: 2px;
+  }
+
+  /* Date strip */
+  .date-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .date-display {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--earth);
+    font-style: italic;
+  }
+
+  .day-badge {
+    background: var(--light-sage);
+    color: var(--sage);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  /* Reflection card */
+  .reflection-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 52px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.2s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reflection-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--terracotta);
+    border-radius: 20px 0 0 20px;
+  }
+
+  .card-phase-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-phase-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .question-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    color: var(--border);
+    line-height: 1;
+    position: absolute;
+    top: 32px;
+    right: 44px;
+    user-select: none;
+  }
+
+  .question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--deep);
+    margin-bottom: 28px;
+    padding-right: 60px;
+  }
+
+  .question-text em {
+    font-style: italic;
+    color: var(--earth);
+  }
+
+  .question-context {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--earth);
+    line-height: 1.8;
+    padding: 18px 20px;
+    background: var(--light-sage);
+    border-radius: 10px;
+    border-left: 3px solid var(--sage);
+    margin-bottom: 0;
+  }
+
+  /* Reflection area */
+  .reflection-area {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 52px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.25s ease both;
+  }
+
+  .reflection-area label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--earth);
+    margin-bottom: 14px;
+  }
+
+  .reflection-textarea {
+    width: 100%;
+    min-height: 140px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--deep);
+    background: var(--cream);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s ease;
+    line-height: 1.7;
+  }
+
+  .reflection-textarea::placeholder {
+    color: var(--border);
+    font-style: italic;
+  }
+
+  .reflection-textarea:focus {
+    border-color: var(--earth);
+  }
+
+  /* Mood / readiness */
+  .mood-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    align-items: center;
+  }
+
+  .mood-label {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--earth);
+    white-space: nowrap;
+  }
+
+  .mood-options {
+    display: flex;
+    gap: 8px;
+  }
+
+  .mood-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mood-btn:hover, .mood-btn.selected {
+    border-color: var(--earth);
+    background: var(--warm-white);
+    transform: scale(1.1);
+  }
+
+  /* Action buttons */
+  .action-row {
+    display: flex;
+    gap: 14px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-save {
+    flex: 1;
+    padding: 16px 28px;
+    background: var(--deep);
+    color: var(--cream);
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .btn-save:hover {
+    background: var(--terracotta);
+    transform: translateY(-1px);
+  }
+
+  .btn-next {
+    padding: 16px 28px;
+    background: transparent;
+    color: var(--earth);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .btn-next:hover {
+    border-color: var(--earth);
+    background: var(--light-sage);
+  }
+
+  /* Progress tracker */
+  .progress-section {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 52px;
+    margin-top: 36px;
+    animation: fadeUp 0.8s 0.35s ease both;
+  }
+
+  .progress-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 20px;
+  }
+
+  .phase-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .phase-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .phase-row-label {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--earth);
+    width: 160px;
+    flex-shrink: 0;
+  }
+
+  .progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--terracotta);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+
+  .progress-count {
+    font-size: 12px;
+    color: var(--earth);
+    width: 40px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Saved entries */
+  .entries-section {
+    margin-top: 36px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .entries-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .entries-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--deep);
+  }
+
+  .entries-count {
+    font-size: 12px;
+    color: var(--earth);
+    font-weight: 300;
+  }
+
+  .entry-item {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 28px;
+    margin-bottom: 14px;
+    background: var(--warm-white);
+    transition: border-color 0.2s;
+  }
+
+  .entry-item:hover { border-color: var(--earth); }
+
+  .entry-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .entry-phase-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    background: #FAF0EA;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .entry-date {
+    font-size: 12px;
+    color: var(--earth);
+    font-weight: 300;
+  }
+
+  .entry-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--earth);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .entry-response {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--deep);
+    line-height: 1.7;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--earth);
+  }
+
+  .empty-state .empty-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .empty-state p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--deep);
+    color: var(--cream);
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 400;
+    z-index: 100;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes cardSwap {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-animate {
+    animation: cardSwap 0.4s ease both;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .reflection-card, .reflection-area, .progress-section { padding: 28px 24px; }
+    .phase-btn { padding: 12px 4px; font-size: 10px; }
+    .question-number { font-size: 48px; top: 20px; right: 20px; }
+    .action-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <p class="header-eyebrow">Companion to Cultural Humility in Healthcare</p>
+    <h1>Daily <em>Reflections</em><br>for the Practicing Clinician</h1>
+    <p class="header-sub">A structured journey inward — beginning with self-awareness, moving through practice, and toward sustained growth.</p>
+    <div class="header-divider"></div>
+  </div>
+
+  <!-- Phase navigation -->
+  <div class="phase-nav" role="tablist" aria-label="Reflection phases">
+    <button class="phase-btn active" onclick="setPhase(0)" role="tab">
+      <span class="phase-num">I</span>
+      Internal Awareness
+    </button>
+    <button class="phase-btn" onclick="setPhase(1)" role="tab">
+      <span class="phase-num">II</span>
+      Patient Encounters
+    </button>
+    <button class="phase-btn" onclick="setPhase(2)" role="tab">
+      <span class="phase-num">III</span>
+      Systems & Power
+    </button>
+    <button class="phase-btn" onclick="setPhase(3)" role="tab">
+      <span class="phase-num">IV</span>
+      Sustained Practice
+    </button>
+  </div>
+
+  <!-- Date strip -->
+  <div class="date-strip">
+    <span class="date-display" id="dateDisplay"></span>
+    <span class="day-badge" id="dayBadge"></span>
+  </div>
+
+  <!-- Main reflection card -->
+  <div class="reflection-card" id="reflectionCard">
+    <div class="card-phase-label" id="phaseLabelText">Phase I · Internal Awareness</div>
+    <div class="question-number" id="qNum">01</div>
+    <p class="question-text" id="questionText"></p>
+    <div class="question-context" id="questionContext"></div>
+  </div>
+
+  <!-- Reflection input -->
+  <div class="reflection-area">
+    <label for="reflectionInput">Your Reflection</label>
+    <textarea
+      id="reflectionInput"
+      class="reflection-textarea"
+      placeholder="Write freely. There are no right answers — only honest ones…"
+      rows="6"
+    ></textarea>
+    <div class="mood-row">
+      <span class="mood-label">How did this land?</span>
+      <div class="mood-options" id="moodOptions">
+        <button class="mood-btn" title="Comfortable" onclick="selectMood(this, '😌')">😌</button>
+        <button class="mood-btn" title="Curious" onclick="selectMood(this, '🤔')">🤔</button>
+        <button class="mood-btn" title="Uncomfortable" onclick="selectMood(this, '😬')">😬</button>
+        <button class="mood-btn" title="Challenged" onclick="selectMood(this, '💡')">💡</button>
+        <button class="mood-btn" title="Moved" onclick="selectMood(this, '🌱')">🌱</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="action-row">
+    <button class="btn-save" onclick="saveReflection()">Save Reflection</button>
+    <button class="btn-next" onclick="nextQuestion()">Next Question →</button>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-section">
+    <h3>Your Journey</h3>
+    <div class="phase-progress" id="phaseProgress"></div>
+  </div>
+
+  <!-- Entries -->
+  <div class="entries-section">
+    <div class="entries-header">
+      <h3>Reflection Journal</h3>
+      <span class="entries-count" id="entriesCount"></span>
+    </div>
+    <div id="entriesList"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ──────────────────────────────────────────────────────────────
+const phases = [
+  {
+    name: "Phase I · Internal Awareness",
+    color: "#C4704A",
+    questions: [
+      {
+        text: "Think of a patient whose cultural background differed from yours. What assumptions did you notice yourself making before you even spoke to them?",
+        context: "Cultural humility begins not with knowledge of others, but with honest examination of ourselves. Our assumptions often operate below conscious awareness — bringing them to light is the first act of humility."
+      },
+      {
+        text: "What values were you raised with about health, illness, and the role of a healthcare provider? How might these values differ from those of patients you serve?",
+        context: "Our earliest experiences with healthcare — in our own families and communities — shape deep, often unexamined beliefs about what 'good' care looks and feels like."
+      },
+      {
+        text: "Name one cultural group or community you feel least comfortable working with. What feelings arise when you examine that discomfort honestly?",
+        context: "Discomfort is not failure — it is data. Noticing where our ease ends and our resistance begins is essential diagnostic work on the self."
+      },
+      {
+        text: "How has your racial, ethnic, or socioeconomic background shaped the way you move through the healthcare system — as a provider? As a patient yourself?",
+        context: "Identity shapes perception. Understanding your own positionality is a precondition for understanding how it influences every clinical encounter."
+      },
+      {
+        text: "When was the last time a patient or colleague said something that made you realize your perspective was limited? What did that moment feel like?",
+        context: "Moments of realization are gifts, however uncomfortable. Cultural humility asks us to receive them without defensiveness and return to them often."
+      },
+      {
+        text: "What messages did you receive during your training about which patients were 'compliant' or 'difficult'? Whose standards were those judgments based on?",
+        context: "Professional socialization transmits not only clinical knowledge but also implicit hierarchies of value. Examining that transmission is part of unlearning bias."
+      },
+      {
+        text: "If a trusted colleague could observe your unspoken reactions during patient encounters, what do you think they would notice about your biases?",
+        context: "Imagining an honest outside observer can surface what self-protection keeps hidden. This is not about shame — it is about clarity."
+      },
+      {
+        text: "In what areas of cultural identity — religion, gender, sexuality, disability, class — do you have the least personal experience? How does that shape your care?",
+        context: "Gaps in lived experience are not flaws; they are simply human. But unacknowledged gaps become blind spots that affect the quality and equity of care."
+      },
+      {
+        text: "What is one belief you hold about health behavior that you have rarely questioned? Where did that belief come from?",
+        context: "Many clinical assumptions are cultural artifacts — not universal truths. Tracing a belief back to its origins can reveal whether it belongs in the examination room."
+      },
+      {
+        text: "How do you typically respond when a patient's health beliefs conflict with your medical training? What does your response reveal about how you hold your own expertise?",
+        context: "The tension between biomedical authority and patient knowledge is a defining site of cultural humility practice. Our habitual responses there speak volumes."
+      }
+    ]
+  },
+  {
+    name: "Phase II · Patient Encounters",
+    color: "#6B8270",
+    questions: [
+      {
+        text: "Recall a miscommunication with a patient from a different background. Looking back, what did you not ask that might have changed the conversation?",
+        context: "The questions we do not ask are often more revealing than those we do. Cultural humility lives in the curiosity we are willing to act on."
+      },
+      {
+        text: "How do you invite patients to share their explanatory model — their own understanding of what is wrong and why?",
+        context: "Arthur Kleinman's explanatory model framework reminds us: every patient arrives with a theory of their illness. Our job is to learn it before we try to treat it."
+      },
+      {
+        text: "Think of a patient whose family involvement in care decisions surprised or frustrated you. What assumptions about family, autonomy, or privacy did you bring to that situation?",
+        context: "Western bioethics often centers individual autonomy, but many patients and families experience health as inherently collective. Neither framework is wrong."
+      },
+      {
+        text: "When a patient declines a treatment you believe is medically necessary, how do you understand that refusal? What do you do next?",
+        context: "Refusal is communication. It may carry fear, mistrust, cultural meaning, or past harm. Curiosity before judgment is the culturally humble response."
+      },
+      {
+        text: "How do you make space in a visit for a patient to tell you something they think you might not want to hear — or something they are afraid to say?",
+        context: "The patient who trusts you with difficult information is the patient most likely to engage honestly in their own care. That trust must be built, not assumed."
+      },
+      {
+        text: "Have you ever modified your clinical communication style for a patient and it worked better than your default approach? What did you change and why?",
+        context: "Flexibility in communication is not compromise — it is competence. Cultural humility asks us to adapt, not simply to be consistent."
+      },
+      {
+        text: "What assumptions do you make about a patient's health literacy based on their appearance, accent, or level of education? How reliable are those assumptions?",
+        context: "Health literacy is poorly predicted by the variables we tend to use as proxies. Our shortcuts often create the very barriers we assume were already there."
+      },
+      {
+        text: "How do you handle a situation when you realize mid-encounter that you made an incorrect assumption about a patient's identity or values?",
+        context: "Repair in real time — naming the assumption, apologizing if needed, and re-centering the patient — is a high-order cultural humility skill."
+      }
+    ]
+  },
+  {
+    name: "Phase III · Systems & Power",
+    color: "#B8963E",
+    questions: [
+      {
+        text: "In what ways does the institution where you practice make it harder — not easier — for patients from marginalized communities to access equitable care?",
+        context: "Individual cultural humility is necessary but not sufficient. Systemic barriers can undo what a single provider does right. Naming them is the first step toward changing them."
+      },
+      {
+        text: "How is power distributed in your interactions with patients? What do you do to mitigate the imbalance?",
+        context: "The clinical encounter is never a power-neutral space. Awareness of that asymmetry — and intentional moves to reduce it — is central to humility in practice."
+      },
+      {
+        text: "When colleagues use language about patients that encodes bias or stereotype, how do you typically respond? What gets in the way of speaking up?",
+        context: "Silence in the face of harmful language is a form of endorsement. Cultural humility asks us to consider what our silence costs — and who pays."
+      },
+      {
+        text: "What does your institution's patient population look like compared to its leadership, administration, and medical staff? What does that disparity tell you?",
+        context: "Representation in institutional power shapes the questions organizations ask and the solutions they invest in. Noticing this disparity is the beginning of accountability."
+      },
+      {
+        text: "How are the voices of the communities your institution serves included — or excluded — in decisions about care delivery and policy?",
+        context: "Community partnership is not a public relations exercise; it is a structural commitment to shared power. Cultural humility at the systems level demands it."
+      },
+      {
+        text: "What health disparities exist in your patient population that you believe are influenced by structural racism or social inequity? What is your role in addressing them?",
+        context: "Structural factors — housing, income, policing, environment — are clinical determinants. A culturally humble provider holds both the immediate and the systemic in view."
+      }
+    ]
+  },
+  {
+    name: "Phase IV · Sustained Practice",
+    color: "#7C6A52",
+    questions: [
+      {
+        text: "What practices help you stay curious and open about cultures you do not belong to, outside of formal training or CME requirements?",
+        context: "Cultural humility is a lifelong orientation, not a certificate to be earned. Sustainable growth requires practices woven into daily life, not event-based interventions."
+      },
+      {
+        text: "Who in your professional life challenges you to grow in cultural humility? How do you seek out and sustain those relationships?",
+        context: "Growth rarely happens in isolation. The colleagues, mentors, and community members who hold up mirrors are among our most important clinical teachers."
+      },
+      {
+        text: "When you reflect on the clinician you were five years ago, what biases or blind spots do you see more clearly now? What made that growth possible?",
+        context: "Looking backward can illuminate both how far we have come and what made movement possible — information we can use to keep moving forward."
+      },
+      {
+        text: "How do you model cultural humility for trainees, students, or newer colleagues? What do you wish someone had modeled for you earlier in your career?",
+        context: "The transmission of professional culture happens through observation. We are always, whether we intend it or not, teaching others what we practice."
+      },
+      {
+        text: "What would it mean for cultural humility to be not just a value you hold, but something that is visible to every patient you care for?",
+        context: "Values expressed only in belief and not in behavior remain invisible to those they are meant to serve. This question asks us to close that gap."
+      },
+      {
+        text: "At the end of this reflection practice, what one commitment are you willing to make — specific, actionable, observable — to deepen your practice of cultural humility?",
+        context: "Reflection without commitment remains in the realm of good intention. Cultural humility asks for the harder thing: sustained, observable change in how we practice."
+      }
+    ]
+  }
+];
+
+// ─── STATE ──────────────────────────────────────────────────────────────
+let currentPhase = 0;
+let currentQIndex = 0;
+let selectedMood = null;
+let entries = JSON.parse(localStorage.getItem('ch_entries') || '[]');
+let qIndexByPhase = JSON.parse(localStorage.getItem('ch_qindex') || '[0,0,0,0]');
+
+// ─── INIT ──────────────────────────────────────────────────────────────
+function init() {
+  // Date
+  const now = new Date();
+  document.getElementById('dateDisplay').textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  document.getElementById('dayBadge').textContent = 'Day ' + getDayOfYear(now);
+
+  currentQIndex = qIndexByPhase[currentPhase];
+  renderQuestion();
+  renderProgress();
+  renderEntries();
+}
+
+function getDayOfYear(date) {
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date - start;
+  return Math.floor(diff / 86400000);
+}
+
+// ─── PHASE ──────────────────────────────────────────────────────────────
+function setPhase(idx) {
+  currentPhase = idx;
+  document.querySelectorAll('.phase-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  currentQIndex = qIndexByPhase[currentPhase];
+  selectedMood = null;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('reflectionInput').value = '';
+  renderQuestion();
+  renderProgress();
+}
+
+// ─── RENDER QUESTION ──────────────────────────────────────────────────
+function renderQuestion() {
+  const phase = phases[currentPhase];
+  const q = phase.questions[currentQIndex % phase.questions.length];
+
+  const card = document.getElementById('reflectionCard');
+  card.classList.remove('card-animate');
+  void card.offsetWidth;
+  card.classList.add('card-animate');
+  card.style.setProperty('--phase-accent', phase.color);
+  card.querySelector('::before'); // refresh border
+
+  document.getElementById('phaseLabelText').textContent = phase.name;
+  document.getElementById('phaseLabelText').style.color = phase.color;
+  document.getElementById('qNum').textContent = String(currentQIndex % phase.questions.length + 1).padStart(2, '0');
+  document.getElementById('questionText').innerHTML = q.text;
+  document.getElementById('questionContext').textContent = q.context;
+}
+
+// ─── NEXT QUESTION ──────────────────────────────────────────────────
+function nextQuestion() {
+  currentQIndex = (currentQIndex + 1) % phases[currentPhase].questions.length;
+  qIndexByPhase[currentPhase] = currentQIndex;
+  localStorage.setItem('ch_qindex', JSON.stringify(qIndexByPhase));
+  selectedMood = null;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('reflectionInput').value = '';
+  renderQuestion();
+}
+
+// ─── MOOD ──────────────────────────────────────────────────────────────
+function selectMood(btn, emoji) {
+  selectedMood = emoji;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// ─── SAVE ──────────────────────────────────────────────────────────────
+function saveReflection() {
+  const text = document.getElementById('reflectionInput').value.trim();
+  if (!text) { showToast('Please write your reflection before saving.'); return; }
+
+  const phase = phases[currentPhase];
+  const q = phase.questions[currentQIndex % phase.questions.length];
+
+  entries.unshift({
+    id: Date.now(),
+    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    phase: phase.name,
+    question: q.text,
+    response: text,
+    mood: selectedMood || '—'
+  });
+
+  localStorage.setItem('ch_entries', JSON.stringify(entries));
+  document.getElementById('reflectionInput').value = '';
+  selectedMood = null;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+
+  renderProgress();
+  renderEntries();
+  showToast('Reflection saved. 🌱');
+  nextQuestion();
+}
+
+// ─── PROGRESS ──────────────────────────────────────────────────────────
+function renderProgress() {
+  const container = document.getElementById('phaseProgress');
+  container.innerHTML = '';
+
+  phases.forEach((phase, i) => {
+    const phaseEntries = entries.filter(e => e.phase === phase.name).length;
+    const total = phase.questions.length;
+    const pct = Math.min(100, Math.round((phaseEntries / total) * 100));
+
+    const row = document.createElement('div');
+    row.className = 'phase-row';
+    row.innerHTML = `
+      <span class="phase-row-label">${phase.name.split(' · ')[1]}</span>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width:${pct}%; background:${phase.color}"></div>
+      </div>
+      <span class="progress-count">${phaseEntries}/${total}</span>
+    `;
+    container.appendChild(row);
+  });
+}
+
+// ─── ENTRIES ──────────────────────────────────────────────────────────
+function renderEntries() {
+  const container = document.getElementById('entriesList');
+  document.getElementById('entriesCount').textContent = entries.length + (entries.length === 1 ? ' entry' : ' entries');
+
+  if (entries.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📖</div><p>Your journal is empty. Save your first reflection to begin your record of growth.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = entries.slice(0, 10).map(e => `
+    <div class="entry-item">
+      <div class="entry-meta">
+        <span class="entry-phase-tag">${e.phase.split(' · ')[1]}</span>
+        <span class="entry-date">${e.date} · ${e.mood}</span>
+      </div>
+      <p class="entry-question">"${e.question}"</p>
+      <p class="entry-response">${e.response}</p>
+    </div>
+  `).join('');
+}
+
+// ─── TOAST ──────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+init();
+</script>
+</body>
+</html>
